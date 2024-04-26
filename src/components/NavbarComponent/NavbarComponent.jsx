@@ -1,6 +1,11 @@
 import React from "react";
-import { WrapperContent, WrapperLabelText, WrapperTextValue } from "./style";
-import { Checkbox } from "antd";
+import {
+  WrapperContent,
+  WrapperLabelText,
+  WrapperTextPrice,
+  WrapperTextValue,
+} from "./style";
+import { Checkbox, Rate } from "antd";
 
 const NavbarComponent = () => {
   const renderContent = (type, options) => {
@@ -12,12 +17,32 @@ const NavbarComponent = () => {
 
       case "checkbox":
         return (
-          <Checkbox.Group style={{ width: "100%" }}>
+          <Checkbox.Group
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
             {options.map((options) => {
               return <Checkbox value={options.value}>{options.label}</Checkbox>;
             })}
           </Checkbox.Group>
         );
+      case "star":
+        return options.map((options) => {
+          return (
+            <div style={{ display: "flex" }}>
+              <Rate disabled defaultValue={options} /> &nbsp;
+              <span>Từ {options} sao</span>
+            </div>
+          );
+        });
+      case "price":
+        return options.map((options) => {
+          return <WrapperTextPrice>{options}</WrapperTextPrice>;
+        });
       default:
         return {};
     }
@@ -27,11 +52,6 @@ const NavbarComponent = () => {
       <WrapperLabelText>Label</WrapperLabelText>
       <WrapperContent>
         {renderContent("text", ["Tulanh", "TV", "May Giat"])}
-        {renderContent("checkbox", [
-          { value: "a", label: "A" },
-          { value: "b", label: "B" },
-          { value: "b", label: "C" },
-        ])}
       </WrapperContent>
     </>
   );
