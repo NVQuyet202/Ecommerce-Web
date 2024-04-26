@@ -30,7 +30,7 @@ const ButtonInputSearch = (props) => {
           color: colorButton,
           borderRadius: "0 ",
           border: "none",
-          backgroundColor: backgroundColorButton,
+          background: backgroundColorButton,
         }}
         textButton={textButton}
       ></ButtonComponent>
