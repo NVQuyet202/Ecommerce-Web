@@ -15,7 +15,7 @@ const CardComponent = ({ size, placeholder, bordered, style, ...rests }) => {
   return (
     <WrapperCardStyle
       hoverable
-      headStyle={{ width: "200px", height: "200px" }}
+      styles={{ header: { width: "200px", height: "200px" } }}
       style={{ width: 200 }}
       cover={
         <img

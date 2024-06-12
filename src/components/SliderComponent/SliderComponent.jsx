@@ -16,9 +16,10 @@ const SliderComponent = ({ arrImages }) => {
   return (
     <div>
       <WrapperSliderStyle {...settings}>
-        {arrImages.map((image) => {
+        {arrImages.map((image, index) => {
           return (
             <Image
+              key={index}
               src={image}
               alt="slider"
               preview={false}
