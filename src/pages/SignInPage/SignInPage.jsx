@@ -33,7 +33,7 @@ const SignInPage = () => {
     if (isSuccess && data?.status !== "ERR") {
       Message.success("Login Succeed");
       navigate("/");
-      localStorage.setItem("access_token", data?.access_token);
+      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token);
         if (decoded?.id) {
@@ -48,7 +48,6 @@ const SignInPage = () => {
   const hanldeGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
-    console.log(res);
   };
 
   const handleOnchangeEmail = (value) => {
