@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Badge, Col, Popover } from "antd";
+import React, { useEffect, useState } from "react";
+import { Badge, Col, Image, Popover } from "antd";
 import {
   WrapperHeader,
   WrapperTextHeader,
@@ -22,6 +22,8 @@ import Loading from "../LoadingComponent/Loading";
 const HeaderComponent = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState(user?.avatar);
   const dispatch = useDispatch();
   const [isPending, setPending] = useState(false);
 
@@ -29,11 +31,19 @@ const HeaderComponent = () => {
     navigate("/sign-in");
   };
 
+  useEffect(() => {
+    setPending(true);
+    setName(user?.name);
+    setAvatar(user?.avatar);
+    setPending(false);
+  }, [user?.name, user?.avatar]);
+
   const handleLogout = async () => {
     setPending(true);
     await UserService.logoutUser();
     dispatch(resetUser());
     localStorage.removeItem("access_token");
+    navigate("/");
     setPending(false);
   };
 
@@ -76,13 +86,20 @@ const HeaderComponent = () => {
         >
           <Loading isPending={isPending}>
             <WrapperHeaderAccount>
-              <UserOutlined style={{ fontSize: "25px" }} />
+              {avatar !== "" ? (
+                <Image
+                  width={50}
+                  style={{ borderRadius: "30px" }}
+                  src={avatar}
+                  alt="avatar"
+                />
+              ) : (
+                <UserOutlined style={{ fontSize: "25px" }} />
+              )}
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                    <div style={{ cursor: "pointer" }}>
-                      {user.name || user.email || "User"}
-                    </div>
+                    <div style={{ cursor: "pointer" }}>{name || "User"}</div>
                   </Popover>
                 </>
               ) : (

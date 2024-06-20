@@ -19,8 +19,6 @@ export const signUpUser = async (data) => {
 };
 
 export const getDetailsUser = async (id, access_token) => {
-  console.log(access_token);
-
   const res = await axiosJWT.get(
     `${process.env.REACT_APP_AI_URL}/user/get-details/${id}`,
     {
@@ -29,7 +27,6 @@ export const getDetailsUser = async (id, access_token) => {
       },
     }
   );
-  console.log(res);
   return res.data;
 };
 
@@ -45,5 +42,20 @@ export const refreshToken = async () => {
 
 export const logoutUser = async () => {
   const res = await axios.post(`${process.env.REACT_APP_AI_URL}/user/log-out`);
+  return res.data;
+};
+
+export const updateUserService = async (dataUser) => {
+  const { id, access_token, ...rests } = dataUser;
+
+  const res = await axiosJWT.put(
+    `${process.env.REACT_APP_AI_URL}/user/update-user/${id}`,
+    rests,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
   return res.data;
 };

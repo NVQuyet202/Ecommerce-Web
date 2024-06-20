@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
 import DefaultComponent from "./components/DefaulComponent/DefaulComponent";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { isJsonString } from "./untils";
 import { jwtDecode } from "jwt-decode";
@@ -26,7 +25,6 @@ function App() {
     if (storageData && isJsonString(storageData)) {
       storageData = JSON.parse(storageData);
       decoded = jwtDecode(storageData);
-      console.log(jwtDecode(storageData));
     }
     return { decoded, storageData };
   };
@@ -41,8 +39,8 @@ function App() {
           "access_token",
           JSON.stringify(data?.access_token)
         );
+        handleGetDetailsUser(decoded?.id, data?.access_token);
         config.headers["Authorization"] = `Bearer ${data?.access_token}`;
-        console.log(config);
       }
       return config;
     },
